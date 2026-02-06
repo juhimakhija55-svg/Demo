@@ -77,7 +77,6 @@ button{
   color:#fff;
   left:20px;
   bottom:15px;
-  box-shadow:0 10px 25px rgba(201,24,74,.4);
 }
 
 #no{
@@ -85,7 +84,7 @@ button{
   color:#fff;
   right:20px;
   bottom:15px;
-  transition:left .35s ease, top .35s ease;
+  transition:left .25s ease, top .25s ease;
 }
 
 /* 🌹 Rose petals */
@@ -109,10 +108,10 @@ button{
 
 <div class="card">
   <h1>Oppaa 💗</h1>
-  <div class="subtitle" id="subtitle">Will you be my Valentine?</div>
+  <div class="subtitle">Will you be my Valentine?</div>
 
   <div class="meme">
-    <img id="memeImg" src="start.jpg" alt="thinking">
+    <img id="memeImg" src="start.jpg">
     <div class="meme-text" id="memeText">
       Don’t worry… it’s a very serious question 😏💗
     </div>
@@ -125,7 +124,7 @@ button{
 </div>
 
 <audio id="music">
-  <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_7c7a4bb5c0.mp3" type="audio/mpeg">
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_7c7a4bb5c0.mp3">
 </audio>
 
 <script>
@@ -133,52 +132,38 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const memeImg = document.getElementById("memeImg");
 const memeText = document.getElementById("memeText");
-const subtitle = document.getElementById("subtitle");
 const box = document.getElementById("box");
 const music = document.getElementById("music");
 
-const chaseTexts = [
+const noTexts = [
   "Wait… don’t rush 😏",
   "Still thinking? 😌",
   "Okay now you’re teasing 😈",
-  "You’re enjoying this, admit it 🤭",
+  "You’re enjoying this 🤭",
   "Bas YES bol do na 💗"
 ];
 
-let textIndex = 0;
-let stage = 0;
-let isMoving = false;
+let count = 0;
 
-function handleNo(){
-  if(isMoving) return;
-  isMoving = true;
+noBtn.addEventListener("click", () => {
+  const maxX = box.clientWidth - noBtn.offsetWidth;
+  const maxY = box.clientHeight - noBtn.offsetHeight;
 
-  const x = Math.random() * (box.clientWidth - noBtn.offsetWidth);
-  const y = Math.random() * (box.clientHeight - noBtn.offsetHeight);
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
   noBtn.style.right = "auto";
   noBtn.style.bottom = "auto";
 
-  if(stage === 0){
+  memeText.innerText = noTexts[count % noTexts.length];
+  count++;
+
+  if(count === 1){
     memeImg.src = "akshay.jpg";
-    stage = 1;
   }
-
-  memeText.innerText = chaseTexts[textIndex % chaseTexts.length];
-  textIndex++;
-
-  setTimeout(()=>{ isMoving = false; }, 300);
-}
-
-// Desktop
-noBtn.addEventListener("mouseenter", handleNo);
-
-// Mobile
-noBtn.addEventListener("touchstart", (e)=>{
-  e.preventDefault();
-  handleNo();
-}, { passive:false });
+});
 
 function showerRosePetals(){
   const petals = ["🌹","🌸","💗"];
@@ -193,7 +178,7 @@ function showerRosePetals(){
   }
 }
 
-yesBtn.addEventListener("click", ()=>{
+yesBtn.addEventListener("click", () => {
   music.play();
   memeImg.src = "ddlj.jpg";
   memeText.innerHTML = `
@@ -202,7 +187,6 @@ yesBtn.addEventListener("click", ()=>{
     <strong>I love you, Oppaa</strong><br><br>
     <em>Good choice. I’d have chosen me too 😏💗</em>
   `;
-  subtitle.innerText = "You chose love 💗";
   noBtn.style.display = "none";
   yesBtn.innerText = "Forever 💖";
   showerRosePetals();
