@@ -56,7 +56,7 @@ h1{
   color:#7a1234;
 }
 
-/* BUTTONS — SAFE LAYOUT */
+/* Buttons */
 .buttons{
   display:flex;
   gap:12px;
@@ -69,6 +69,7 @@ button{
   border-radius:999px;
   border:none;
   font-size:15px;
+  cursor:pointer;
 }
 
 #yes{
@@ -82,7 +83,7 @@ button{
   transition:transform .25s ease;
 }
 
-/* 🌹 Rose petals */
+/* Rose petals */
 .rose-petal{
   position:fixed;
   top:-10%;
@@ -108,7 +109,7 @@ button{
   <div class="meme">
     <img id="memeImg" src="start.jpg" alt="thinking">
     <div class="meme-text" id="memeText">
-      Don’t worry… it’s a very serious question 😏💗
+      Brave enough to click NO… or just pretending to think? 😏
     </div>
   </div>
 
@@ -139,6 +140,7 @@ const texts = [
 
 let i = 0;
 
+// NO button behaviour
 noBtn.addEventListener("click", () => {
   const x = (Math.random()*120)-60;
   const y = (Math.random()*60)-30;
@@ -152,6 +154,7 @@ noBtn.addEventListener("click", () => {
   }
 });
 
+// Rose petals
 function showerRosePetals(){
   const petals = ["🌹","🌸","💗"];
   for(let j=0;j<30;j++){
@@ -165,6 +168,7 @@ function showerRosePetals(){
   }
 }
 
+// YES button behaviour
 yesBtn.addEventListener("click", () => {
   music.play();
   memeImg.src = "ddlj.jpg";
@@ -174,8 +178,8 @@ yesBtn.addEventListener("click", () => {
     <strong>I love you, Oppaa</strong><br><br>
     <em>Good choice. I’d have chosen me too 😏💗</em>
   `;
-  noBtn.style.display="none";
-  yesBtn.innerText="Forever 💖";
+  noBtn.style.display = "none";
+  yesBtn.innerText = "Forever 💖";
   showerRosePetals();
 });
 </script>
