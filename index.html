@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Oppaa 💘</title>
 
+<!-- Confetti -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
@@ -98,7 +98,7 @@ button {
   <div class="meme">
     <img id="memeImg" src="https://i.imgflip.com/4/2fm6x.jpg" alt="Akshay meme">
     <div class="meme-text" id="memeText">
-      Me casually waiting like Akshay 😌
+      Akshay waiting patiently 😌
     </div>
   </div>
 
@@ -108,12 +108,18 @@ button {
   </div>
 </div>
 
+<!-- Romantic instrumental (DDLJ vibe, royalty-free) -->
+<audio id="romanticMusic">
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_7c7a4bb5c0.mp3?filename=romantic-piano-ambient-121121.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const memeImg = document.getElementById("memeImg");
 const memeText = document.getElementById("memeText");
 const box = document.getElementById("box");
+const music = document.getElementById("romanticMusic");
 
 const memes = [
   {
@@ -130,29 +136,24 @@ const memes = [
   },
   {
     img: "https://i.imgflip.com/4/2fm6x.jpg",
-    text: "Ab YES bol de, drama band 😈"
+    text: "Ab YES bol de… DDLJ moment aa raha hai 💖"
   }
 ];
 
 let idx = 0;
 
 function moveNo() {
-  const boxW = box.clientWidth;
-  const boxH = box.clientHeight;
-  const btnW = noBtn.offsetWidth;
-  const btnH = noBtn.offsetHeight;
-
-  const x = Math.random() * (boxW - btnW);
-  const y = Math.random() * (boxH - btnH);
+  const x = Math.random() * (box.clientWidth - noBtn.offsetWidth);
+  const y = Math.random() * (box.clientHeight - noBtn.offsetHeight);
 
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
   noBtn.style.right = "auto";
   noBtn.style.bottom = "auto";
 
-  const meme = memes[Math.min(idx, memes.length - 1)];
-  memeImg.src = meme.img;
-  memeText.innerText = meme.text;
+  const m = memes[Math.min(idx, memes.length - 1)];
+  memeImg.src = m.img;
+  memeText.innerText = m.text;
   idx++;
 }
 
@@ -160,10 +161,13 @@ noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("touchstart", moveNo, { passive: true });
 
 yesBtn.addEventListener("click", () => {
-  memeImg.src = "https://i.imgflip.com/4/1otk96.jpg"; // DDLJ-style romance
+  music.play();
+
+  memeImg.src = "https://i.imgflip.com/4/1otk96.jpg"; // romantic Bollywood vibe
   memeText.innerHTML = `
-    Ja Simran… jee le apni Valentine life ❤️<br><br>
-    <strong>Happy Valentine’s Day, Oppaa 💕</strong><br>
+    Ja Simran… ❤️<br>
+    Bade achhe lagte hain yeh pal 💕<br><br>
+    <strong>Happy Valentine’s Day, Oppaa</strong><br>
     Screenshot this & send it to me 😘
   `;
 
