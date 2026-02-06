@@ -3,88 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Oppaa 💘</title>
-
-<!-- Confetti -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<title>Oppaa 💗</title>
 
 <style>
-body {
-  height: 100vh;
-  margin: 0;
-  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, Helvetica, sans-serif;
+body{
+  height:100vh;
+  margin:0;
+  background:linear-gradient(135deg,#ffb3d9,#ff8fab);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow:hidden;
 }
 
-.card {
-  background: #ffffff;
-  padding: 28px;
-  border-radius: 24px;
-  width: 350px;
-  text-align: center;
-  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
+.card{
+  background:#fff;
+  padding:28px;
+  border-radius:26px;
+  width:360px;
+  text-align:center;
+  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  position:relative;
 }
 
-h1 {
-  margin: 0 0 6px;
-  color: #c9184a;
-  font-size: 26px;
+h1{
+  margin:0 0 6px;
+  color:#c9184a;
+  font-size:26px;
 }
 
-.subtitle {
-  font-size: 15px;
-  color: #444;
-  margin-bottom: 14px;
+.subtitle{
+  font-size:15px;
+  color:#666;
+  margin-bottom:16px;
 }
 
-.meme {
-  background: #fff0f6;
-  padding: 12px;
-  border-radius: 16px;
-  margin-bottom: 22px;
+.meme{
+  background:#fff0f6;
+  padding:14px;
+  border-radius:18px;
+  margin-bottom:24px;
 }
 
-.meme img {
-  width: 100%;
-  border-radius: 12px;
+.meme img{
+  width:100%;
+  border-radius:14px;
+  display:block;
 }
 
-.meme-text {
-  margin-top: 8px;
-  font-size: 14px;
-  color: #6a0f2e;
+.meme-text{
+  margin-top:10px;
+  font-size:15px;
+  color:#7a1234;
 }
 
-.buttons {
-  position: relative;
-  height: 120px;
+.buttons{
+  position:relative;
+  height:110px;
 }
 
-button {
-  position: absolute;
-  padding: 12px 26px;
-  border-radius: 999px;
-  border: none;
-  font-size: 15px;
-  cursor: pointer;
+button{
+  position:absolute;
+  padding:12px 28px;
+  border-radius:999px;
+  border:none;
+  font-size:15px;
+  cursor:pointer;
 }
 
-#yes {
-  background: #c9184a;
-  color: white;
-  left: 20px;
-  bottom: 15px;
+#yes{
+  background:#c9184a;
+  color:#fff;
+  left:20px;
+  bottom:15px;
+  box-shadow:0 10px 25px rgba(201,24,74,.4);
 }
 
-#no {
-  background: #222;
-  color: white;
-  right: 20px;
-  bottom: 15px;
-  transition: left 0.35s ease, top 0.35s ease;
+#no{
+  background:#222;
+  color:#fff;
+  right:20px;
+  bottom:15px;
+  transition:left .35s ease, top .35s ease;
+}
+
+/* 🌹 Rose petals */
+.rose-petal{
+  position:fixed;
+  top:-10%;
+  font-size:20px;
+  animation-name:fall;
+  animation-timing-function:linear;
+  pointer-events:none;
+  z-index:9999;
+}
+
+@keyframes fall{
+  0%{
+    transform:translateX(0) rotate(0deg);
+    opacity:1;
+  }
+  100%{
+    transform:translateX(120px) rotate(360deg);
+    top:110%;
+    opacity:0;
+  }
 }
 </style>
 </head>
@@ -93,10 +117,10 @@ button {
 
 <div class="card">
   <h1>Oppaa 🥺</h1>
-  <div class="subtitle">Will you be my Valentine?</div>
+  <div class="subtitle" id="subtitle">Will you be my Valentine?</div>
 
   <div class="meme">
-    <img id="memeImg" src="https://i.imgflip.com/4/2fm6x.jpg" alt="Akshay meme">
+    <img id="memeImg" src="akshay.jpg" alt="Akshay meme">
     <div class="meme-text" id="memeText">
       Akshay waiting patiently 😌
     </div>
@@ -109,8 +133,8 @@ button {
 </div>
 
 <!-- Romantic instrumental (DDLJ vibe, royalty-free) -->
-<audio id="romanticMusic">
-  <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_7c7a4bb5c0.mp3?filename=romantic-piano-ambient-121121.mp3" type="audio/mpeg">
+<audio id="music">
+  <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_7c7a4bb5c0.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -118,68 +142,58 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const memeImg = document.getElementById("memeImg");
 const memeText = document.getElementById("memeText");
+const subtitle = document.getElementById("subtitle");
 const box = document.getElementById("box");
-const music = document.getElementById("romanticMusic");
+const music = document.getElementById("music");
 
-const memes = [
-  {
-    img: "https://i.imgflip.com/4/2fm6x.jpg",
-    text: "Soch le Oppaa… Akshay wait kar raha hai 😏"
-  },
-  {
-    img: "https://i.imgflip.com/4/3vzej.jpg",
-    text: "Itna bhaav mat khao 😭"
-  },
-  {
-    img: "https://i.imgflip.com/4/4acd7.jpg",
-    text: "Dil se bura laga 💔"
-  },
-  {
-    img: "https://i.imgflip.com/4/2fm6x.jpg",
-    text: "Ab YES bol de… DDLJ moment aa raha hai 💖"
-  }
+const texts = [
+  "Soch le Oppaa… 😏",
+  "Dil se bura laga 💔",
+  "Ab toh YES bol de 😈"
 ];
 
-let idx = 0;
+let i = 0;
 
-function moveNo() {
+function moveNo(){
   const x = Math.random() * (box.clientWidth - noBtn.offsetWidth);
   const y = Math.random() * (box.clientHeight - noBtn.offsetHeight);
-
   noBtn.style.left = x + "px";
   noBtn.style.top = y + "px";
   noBtn.style.right = "auto";
   noBtn.style.bottom = "auto";
-
-  const m = memes[Math.min(idx, memes.length - 1)];
-  memeImg.src = m.img;
-  memeText.innerText = m.text;
-  idx++;
+  memeText.innerText = texts[Math.min(i, texts.length - 1)];
+  i++;
 }
 
 noBtn.addEventListener("mouseenter", moveNo);
-noBtn.addEventListener("touchstart", moveNo, { passive: true });
+noBtn.addEventListener("touchstart", moveNo, { passive:true });
 
-yesBtn.addEventListener("click", () => {
+function showerRosePetals(){
+  const petals = ["🌹","🌸","💗"];
+  for(let j=0;j<30;j++){
+    const petal = document.createElement("div");
+    petal.className = "rose-petal";
+    petal.innerText = petals[Math.floor(Math.random()*petals.length)];
+    petal.style.left = Math.random()*100 + "vw";
+    petal.style.animationDuration = 4 + Math.random()*3 + "s";
+    petal.style.fontSize = 16 + Math.random()*12 + "px";
+    document.body.appendChild(petal);
+    setTimeout(()=>petal.remove(),7000);
+  }
+}
+
+yesBtn.addEventListener("click", ()=>{
   music.play();
-
-  memeImg.src = "https://i.imgflip.com/4/1otk96.jpg"; // romantic Bollywood vibe
+  memeImg.src = "ddlj.jpg";
   memeText.innerHTML = `
-    Ja Simran… ❤️<br>
-    Bade achhe lagte hain yeh pal 💕<br><br>
-    <strong>Happy Valentine’s Day, Oppaa</strong><br>
-    Screenshot this & send it to me 😘
+    Mohabbat woh nahi jo duniya ko dikhayi jaaye 💗<br>
+    Mohabbat woh hai jo dil mein reh jaaye ✨<br><br>
+    <strong>I love you, Oppaa</strong>
   `;
-
-  document.querySelector(".subtitle").innerText = "You chose love 💘";
+  subtitle.innerText = "You chose love 💗";
   noBtn.style.display = "none";
   yesBtn.innerText = "Forever 💖";
-
-  confetti({
-    particleCount: 180,
-    spread: 90,
-    origin: { y: 0.6 }
-  });
+  showerRosePetals();
 });
 </script>
 
