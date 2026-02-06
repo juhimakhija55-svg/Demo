@@ -9,14 +9,10 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <style>
-* {
-  box-sizing: border-box;
-}
-
 body {
   height: 100vh;
   margin: 0;
-  background: #f6b1c3;
+  background: linear-gradient(135deg, #ffb3c6, #ff8fab);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,43 +21,51 @@ body {
 
 .card {
   background: #ffffff;
-  padding: 30px;
-  border-radius: 20px;
-  width: 320px;
+  padding: 28px;
+  border-radius: 24px;
+  width: 350px;
   text-align: center;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.25);
 }
 
 h1 {
-  margin: 0 0 10px;
+  margin: 0 0 6px;
   color: #c9184a;
   font-size: 26px;
 }
 
 .subtitle {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 18px;
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 14px;
 }
 
 .meme {
-  background: #ffe4ec;
-  color: #6a0f2e;
-  padding: 14px;
-  border-radius: 12px;
+  background: #fff0f6;
+  padding: 12px;
+  border-radius: 16px;
   margin-bottom: 22px;
-  font-size: 15px;
-  min-height: 44px;
+}
+
+.meme img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.meme-text {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #6a0f2e;
 }
 
 .buttons {
   position: relative;
-  height: 110px;
+  height: 120px;
 }
 
 button {
   position: absolute;
-  padding: 12px 24px;
+  padding: 12px 26px;
   border-radius: 999px;
   border: none;
   font-size: 15px;
@@ -91,8 +95,11 @@ button {
   <h1>Oppaa 🥺</h1>
   <div class="subtitle">Will you be my Valentine?</div>
 
-  <div class="meme" id="meme">
-    Me pretending you have a choice 😌
+  <div class="meme">
+    <img id="memeImg" src="https://i.imgflip.com/4/2fm6x.jpg" alt="Akshay meme">
+    <div class="meme-text" id="memeText">
+      Me casually waiting like Akshay 😌
+    </div>
   </div>
 
   <div class="buttons" id="box">
@@ -104,15 +111,27 @@ button {
 <script>
 const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
-const meme = document.getElementById("meme");
+const memeImg = document.getElementById("memeImg");
+const memeText = document.getElementById("memeText");
 const box = document.getElementById("box");
 
-const lines = [
-  "Oppaa… think again 😏",
-  "Nice try 😌",
-  "Why are you like this 😭",
-  "This is emotional damage 💔",
-  "Just say YES already 😈"
+const memes = [
+  {
+    img: "https://i.imgflip.com/4/2fm6x.jpg",
+    text: "Soch le Oppaa… Akshay wait kar raha hai 😏"
+  },
+  {
+    img: "https://i.imgflip.com/4/3vzej.jpg",
+    text: "Itna bhaav mat khao 😭"
+  },
+  {
+    img: "https://i.imgflip.com/4/4acd7.jpg",
+    text: "Dil se bura laga 💔"
+  },
+  {
+    img: "https://i.imgflip.com/4/2fm6x.jpg",
+    text: "Ab YES bol de, drama band 😈"
+  }
 ];
 
 let idx = 0;
@@ -131,7 +150,9 @@ function moveNo() {
   noBtn.style.right = "auto";
   noBtn.style.bottom = "auto";
 
-  meme.innerText = lines[Math.min(idx, lines.length - 1)];
+  const meme = memes[Math.min(idx, memes.length - 1)];
+  memeImg.src = meme.img;
+  memeText.innerText = meme.text;
   idx++;
 }
 
@@ -139,18 +160,20 @@ noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("touchstart", moveNo, { passive: true });
 
 yesBtn.addEventListener("click", () => {
-  meme.innerHTML = `
-    💖 Chosen wisely<br><br>
-    Happy Valentine’s Day, Oppaa ✨<br><br>
-    <strong>Screenshot this & send it to me ❤️</strong>
+  memeImg.src = "https://i.imgflip.com/4/1otk96.jpg"; // DDLJ-style romance
+  memeText.innerHTML = `
+    Ja Simran… jee le apni Valentine life ❤️<br><br>
+    <strong>Happy Valentine’s Day, Oppaa 💕</strong><br>
+    Screenshot this & send it to me 😘
   `;
-  document.querySelector("h1").innerText = "Forever Us 💘";
+
+  document.querySelector(".subtitle").innerText = "You chose love 💘";
   noBtn.style.display = "none";
-  yesBtn.innerText = "Always 💖";
+  yesBtn.innerText = "Forever 💖";
 
   confetti({
-    particleCount: 150,
-    spread: 80,
+    particleCount: 180,
+    spread: 90,
     origin: { y: 0.6 }
   });
 });
