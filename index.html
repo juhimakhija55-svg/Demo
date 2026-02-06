@@ -7,84 +7,79 @@
 
 <style>
 body{
-  height:100vh;
   margin:0;
+  min-height:100vh;
   background:linear-gradient(135deg,#ffb3d9,#ff8fab);
   display:flex;
   justify-content:center;
   align-items:center;
   font-family:Arial, Helvetica, sans-serif;
-  overflow:hidden;
 }
 
 .card{
   background:#fff;
-  padding:26px;
-  border-radius:26px;
-  width:360px;
+  padding:22px;
+  border-radius:22px;
+  width:92%;
+  max-width:360px;
   text-align:center;
-  box-shadow:0 30px 70px rgba(0,0,0,.25);
+  box-shadow:0 20px 50px rgba(0,0,0,.25);
 }
 
 h1{
-  margin:0 0 6px;
+  margin:0;
   color:#c9184a;
   font-size:26px;
 }
 
 .subtitle{
+  margin:8px 0 14px;
   font-size:15px;
   color:#666;
-  margin-bottom:14px;
 }
 
 .meme{
   background:#fff0f6;
-  padding:14px;
-  border-radius:18px;
-  margin-bottom:22px;
+  padding:12px;
+  border-radius:16px;
 }
 
 .meme img{
   width:100%;
-  border-radius:14px;
+  border-radius:12px;
   display:block;
 }
 
 .meme-text{
-  margin-top:10px;
+  margin-top:8px;
   font-size:14px;
   color:#7a1234;
-  line-height:1.4;
 }
 
+/* BUTTONS — SAFE LAYOUT */
 .buttons{
-  position:relative;
-  height:110px;
+  display:flex;
+  gap:12px;
+  margin-top:16px;
 }
 
 button{
-  position:absolute;
-  padding:12px 28px;
+  flex:1;
+  padding:14px 0;
   border-radius:999px;
   border:none;
   font-size:15px;
-  cursor:pointer;
 }
 
 #yes{
   background:#c9184a;
   color:#fff;
-  left:20px;
-  bottom:15px;
 }
 
 #no{
   background:#222;
   color:#fff;
-  right:20px;
-  bottom:15px;
-  transition:left .25s ease, top .25s ease;
+  transition:transform .25s ease;
 }
 
 /* 🌹 Rose petals */
@@ -111,13 +106,13 @@ button{
   <div class="subtitle">Will you be my Valentine?</div>
 
   <div class="meme">
-    <img id="memeImg" src="start.jpg">
+    <img id="memeImg" src="start.jpg" alt="thinking">
     <div class="meme-text" id="memeText">
       Don’t worry… it’s a very serious question 😏💗
     </div>
   </div>
 
-  <div class="buttons" id="box">
+  <div class="buttons">
     <button id="yes">Yes ❤️</button>
     <button id="no">No 🙃</button>
   </div>
@@ -132,10 +127,9 @@ const noBtn = document.getElementById("no");
 const yesBtn = document.getElementById("yes");
 const memeImg = document.getElementById("memeImg");
 const memeText = document.getElementById("memeText");
-const box = document.getElementById("box");
 const music = document.getElementById("music");
 
-const noTexts = [
+const texts = [
   "Wait… don’t rush 😏",
   "Still thinking? 😌",
   "Okay now you’re teasing 😈",
@@ -143,31 +137,24 @@ const noTexts = [
   "Bas YES bol do na 💗"
 ];
 
-let count = 0;
+let i = 0;
 
 noBtn.addEventListener("click", () => {
-  const maxX = box.clientWidth - noBtn.offsetWidth;
-  const maxY = box.clientHeight - noBtn.offsetHeight;
+  const x = (Math.random()*120)-60;
+  const y = (Math.random()*60)-30;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
 
-  const x = Math.random() * maxX;
-  const y = Math.random() * maxY;
+  memeText.innerText = texts[i % texts.length];
+  i++;
 
-  noBtn.style.left = x + "px";
-  noBtn.style.top = y + "px";
-  noBtn.style.right = "auto";
-  noBtn.style.bottom = "auto";
-
-  memeText.innerText = noTexts[count % noTexts.length];
-  count++;
-
-  if(count === 1){
+  if(i === 1){
     memeImg.src = "akshay.jpg";
   }
 });
 
 function showerRosePetals(){
   const petals = ["🌹","🌸","💗"];
-  for(let i=0;i<30;i++){
+  for(let j=0;j<30;j++){
     const p = document.createElement("div");
     p.className = "rose-petal";
     p.innerText = petals[Math.floor(Math.random()*petals.length)];
@@ -187,8 +174,8 @@ yesBtn.addEventListener("click", () => {
     <strong>I love you, Oppaa</strong><br><br>
     <em>Good choice. I’d have chosen me too 😏💗</em>
   `;
-  noBtn.style.display = "none";
-  yesBtn.innerText = "Forever 💖";
+  noBtn.style.display="none";
+  yesBtn.innerText="Forever 💖";
   showerRosePetals();
 });
 </script>
