@@ -19,7 +19,7 @@ body{
 
 .card{
   background:#fff;
-  padding:28px;
+  padding:26px;
   border-radius:26px;
   width:360px;
   text-align:center;
@@ -35,14 +35,14 @@ h1{
 .subtitle{
   font-size:15px;
   color:#666;
-  margin-bottom:16px;
+  margin-bottom:14px;
 }
 
 .meme{
   background:#fff0f6;
   padding:14px;
   border-radius:18px;
-  margin-bottom:24px;
+  margin-bottom:22px;
 }
 
 .meme img{
@@ -53,8 +53,9 @@ h1{
 
 .meme-text{
   margin-top:10px;
-  font-size:15px;
+  font-size:14px;
   color:#7a1234;
+  line-height:1.4;
 }
 
 .buttons{
@@ -111,8 +112,7 @@ button{
   <div class="subtitle" id="subtitle">Will you be my Valentine?</div>
 
   <div class="meme">
-    <!-- START IMAGE -->
-    <img id="memeImg" src="start.jpg" alt="Thinking meme">
+    <img id="memeImg" src="start.jpg" alt="thinking">
     <div class="meme-text" id="memeText">
       Don’t worry… it’s a very serious question 😏💗
     </div>
@@ -124,7 +124,6 @@ button{
   </div>
 </div>
 
-<!-- Romantic instrumental -->
 <audio id="music">
   <source src="https://cdn.pixabay.com/download/audio/2022/10/25/audio_7c7a4bb5c0.mp3" type="audio/mpeg">
 </audio>
@@ -138,15 +137,22 @@ const subtitle = document.getElementById("subtitle");
 const box = document.getElementById("box");
 const music = document.getElementById("music");
 
-let stage = 0;
-
 const chaseTexts = [
-  "Wait… don’t overthink 😏",
+  "Wait… don’t rush 😏",
   "Still thinking? 😌",
-  "Okay now you’re just teasing 😈"
+  "Okay now you’re teasing 😈",
+  "You’re enjoying this, admit it 🤭",
+  "Bas YES bol do na 💗"
 ];
 
-function moveNo(){
+let textIndex = 0;
+let stage = 0;
+let isMoving = false;
+
+function handleNo(){
+  if(isMoving) return;
+  isMoving = true;
+
   const x = Math.random() * (box.clientWidth - noBtn.offsetWidth);
   const y = Math.random() * (box.clientHeight - noBtn.offsetHeight);
   noBtn.style.left = x + "px";
@@ -159,22 +165,31 @@ function moveNo(){
     stage = 1;
   }
 
-  memeText.innerText = chaseTexts[Math.min(stage-1, chaseTexts.length-1)];
+  memeText.innerText = chaseTexts[textIndex % chaseTexts.length];
+  textIndex++;
+
+  setTimeout(()=>{ isMoving = false; }, 300);
 }
 
-noBtn.addEventListener("mouseenter", moveNo);
-noBtn.addEventListener("touchstart", moveNo, { passive:true });
+// Desktop
+noBtn.addEventListener("mouseenter", handleNo);
+
+// Mobile
+noBtn.addEventListener("touchstart", (e)=>{
+  e.preventDefault();
+  handleNo();
+}, { passive:false });
 
 function showerRosePetals(){
   const petals = ["🌹","🌸","💗"];
   for(let i=0;i<30;i++){
-    const petal = document.createElement("div");
-    petal.className = "rose-petal";
-    petal.innerText = petals[Math.floor(Math.random()*petals.length)];
-    petal.style.left = Math.random()*100 + "vw";
-    petal.style.animationDuration = 4 + Math.random()*3 + "s";
-    document.body.appendChild(petal);
-    setTimeout(()=>petal.remove(),7000);
+    const p = document.createElement("div");
+    p.className = "rose-petal";
+    p.innerText = petals[Math.floor(Math.random()*petals.length)];
+    p.style.left = Math.random()*100 + "vw";
+    p.style.animationDuration = 4 + Math.random()*3 + "s";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),7000);
   }
 }
 
