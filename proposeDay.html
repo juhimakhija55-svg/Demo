@@ -17,16 +17,16 @@ body{
   align-items:center;
   font-family:'Playfair Display', serif;
   color:#5a2a3c;
-  overflow:hidden;
 }
 
+/* wrapper */
 .wrapper{
   width:90%;
   max-width:420px;
   text-align:center;
 }
 
-/* ===== ENVELOPE ===== */
+/* envelope shell */
 .env-shell{
   position:relative;
   width:320px;
@@ -34,7 +34,7 @@ body{
   margin:0 auto;
 }
 
-/* Back */
+/* back */
 .env-back{
   position:absolute;
   inset:0;
@@ -43,7 +43,7 @@ body{
   z-index:1;
 }
 
-/* Pocket */
+/* pocket */
 .env-pocket{
   position:absolute;
   bottom:0;
@@ -75,7 +75,7 @@ body{
   transform:skewX(-18deg);
 }
 
-/* Flap */
+/* flap */
 .env-flap{
   position:absolute;
   top:0;
@@ -89,39 +89,40 @@ body{
   z-index:4;
 }
 
-/* ===== LETTER ===== */
+/* LETTER – completely out of flow initially */
 .letter{
-  position:absolute;
+  position:fixed;            /* key fix */
   left:50%;
   top:50%;
-  transform:translate(-50%, 20px);
+  transform:translate(-50%, 60px);
   width:260px;
   background:#fff;
   padding:26px 22px;
   border-radius:12px;
-  opacity:0;
-  transition:all 1s ease;
-  z-index:10; /* ABOVE ENVELOPE */
   box-shadow:0 18px 50px rgba(0,0,0,.18);
+  opacity:0;
+  pointer-events:none;
+  transition:all 1s ease;
+  z-index:10;
 }
 
-/* OPEN STATES */
+/* open states */
 .env-shell.open .env-flap{
   transform:rotateX(180deg);
 }
 
-.env-shell.show-letter .letter{
+.env-shell.show-letter + .letter{
   opacity:1;
-  transform:translate(-50%, -200px); /* sits above envelope */
+  transform:translate(-50%, -220px); /* sits above envelope */
 }
 
-/* Text */
+/* text */
 .title{font-size:20px;margin-bottom:14px;}
 .choose{font-size:19px;font-weight:600;margin:12px 0;}
 p{font-size:16px;line-height:1.6;margin:12px 0;}
 .signature{margin-top:18px;font-size:15px;font-style:italic;}
 
-/* Hint */
+/* hint */
 .hint{
   margin-top:22px;
   font-size:14px;
@@ -129,7 +130,7 @@ p{font-size:16px;line-height:1.6;margin:12px 0;}
   transition:opacity .3s ease;
 }
 
-/* Petals */
+/* petals */
 .petal{
   position:fixed;
   top:-10%;
@@ -138,6 +139,7 @@ p{font-size:16px;line-height:1.6;margin:12px 0;}
   pointer-events:none;
   z-index:9999;
 }
+
 @keyframes fall{
   0%{transform:translateX(0) rotate(0deg);opacity:1;}
   100%{transform:translateX(120px) rotate(360deg);top:110%;opacity:0;}
@@ -148,29 +150,31 @@ p{font-size:16px;line-height:1.6;margin:12px 0;}
 <body>
 
 <div class="wrapper">
+
+  <!-- ENVELOPE -->
   <div class="env-shell" id="env">
     <div class="env-back"></div>
-
-    <div class="letter">
-      <div class="title">For you.</div>
-      <div class="choose">I choose you.</div>
-
-      <p>
-        Not because it’s special days,<br>
-        but because of the ordinary ones.
-      </p>
-
-      <p>
-        The quiet days.<br>
-        The busy days.<br>
-        And all the days in between.
-      </p>
-
-      <div class="signature">This is us.</div>
-    </div>
-
     <div class="env-pocket"></div>
     <div class="env-flap"></div>
+  </div>
+
+  <!-- LETTER (separate, on top layer) -->
+  <div class="letter" id="letter">
+    <div class="title">For Oppaa.</div>
+    <div class="choose">I choose you.</div>
+
+    <p>
+      Not because it’s special days,<br>
+      but because of the ordinary ones.
+    </p>
+
+    <p>
+      The quiet days.<br>
+      The busy days.<br>
+      And all the days in between.
+    </p>
+
+    <div class="signature">This is us.</div>
   </div>
 
   <div class="hint" id="hint">Tap the envelope 💌</div>
@@ -182,6 +186,7 @@ p{font-size:16px;line-height:1.6;margin:12px 0;}
 
 <script>
 const env = document.getElementById("env");
+const letter = document.getElementById("letter");
 const hint = document.getElementById("hint");
 const music = document.getElementById("music");
 
@@ -204,10 +209,11 @@ env.addEventListener("click",()=>{
 
   setTimeout(()=>{
     env.classList.add("show-letter");
-    music.volume=.35;
+    letter.style.pointerEvents="auto";
+    music.volume=0.35;
     music.play().catch(()=>{});
     petals();
-  },400);
+  },450);
 });
 </script>
 
