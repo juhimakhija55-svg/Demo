@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>For You</title>
+<title>For Oppaa</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
 <style>
 body{
@@ -20,118 +20,116 @@ body{
   overflow:hidden;
 }
 
-/* Wrapper */
 .wrapper{
   width:90%;
   max-width:420px;
   text-align:center;
 }
 
-/* Envelope */
-.envelope{
+/* ===== ENVELOPE ===== */
+.env-shell{
   position:relative;
-  width:300px;
+  width:320px;
   height:200px;
   margin:0 auto;
-  cursor:pointer;
-  animation:pulse 2.5s ease-in-out infinite;
 }
 
-.envelope.open{
-  animation:none;
-}
-
-/* Envelope body */
-.envelope-body{
+/* Back */
+.env-back{
   position:absolute;
-  width:100%;
-  height:100%;
-  background:#f3b6c6;
-  border-radius:12px;
+  inset:0;
+  background:#f1b6c6;
+  border-radius:14px;
   z-index:1;
 }
 
-/* Envelope flap */
-.envelope-flap{
+/* Pocket */
+.env-pocket{
   position:absolute;
-  top:0;
+  bottom:0;
   left:0;
-  width:0;
-  height:0;
-  border-left:150px solid transparent;
-  border-right:150px solid transparent;
-  border-bottom:100px solid #e89aaa;
-  transform-origin:top;
-  transition:transform 0.9s ease;
-  z-index:2;
-}
-
-/* Letter */
-.letter{
-  position:absolute;
-  top:30px;
-  left:18px;
-  right:18px;
-  background:#ffffff;
-  padding:24px 22px;
-  border-radius:10px;
-  opacity:0;
-  transform:translateY(20px);
-  transition:all 1s ease;
+  width:100%;
+  height:120px;
+  background:#eca1b5;
+  border-radius:0 0 14px 14px;
   z-index:3;
 }
 
-/* Open states */
-.envelope.open .envelope-flap{
+.env-pocket::before,
+.env-pocket::after{
+  content:"";
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  background:#e594aa;
+}
+
+.env-pocket::before{
+  left:0;
+  transform:skewX(18deg);
+}
+
+.env-pocket::after{
+  right:0;
+  transform:skewX(-18deg);
+}
+
+/* Flap */
+.env-flap{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100px;
+  background:#e58fa5;
+  clip-path:polygon(0 0,100% 0,50% 100%);
+  transform-origin:top;
+  transition:transform .9s ease;
+  z-index:4;
+}
+
+/* ===== LETTER ===== */
+.letter{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, 20px);
+  width:260px;
+  background:#fff;
+  padding:26px 22px;
+  border-radius:12px;
+  opacity:0;
+  transition:all 1s ease;
+  z-index:10; /* ABOVE ENVELOPE */
+  box-shadow:0 18px 50px rgba(0,0,0,.18);
+}
+
+/* OPEN STATES */
+.env-shell.open .env-flap{
   transform:rotateX(180deg);
 }
 
-.envelope.show-letter .letter{
+.env-shell.show-letter .letter{
   opacity:1;
-  transform:translateY(-30px);
+  transform:translate(-50%, -200px); /* sits above envelope */
 }
 
 /* Text */
-.title{
-  font-size:20px;
-  margin-bottom:18px;
-}
-
-.choose{
-  font-size:19px;
-  font-weight:600;
-  margin:14px 0;
-}
-
-p{
-  font-size:16.5px;
-  line-height:1.65;
-  margin:14px 0;
-}
-
-.signature{
-  margin-top:22px;
-  font-size:15px;
-  font-style:italic;
-  opacity:0.9;
-}
+.title{font-size:20px;margin-bottom:14px;}
+.choose{font-size:19px;font-weight:600;margin:12px 0;}
+p{font-size:16px;line-height:1.6;margin:12px 0;}
+.signature{margin-top:18px;font-size:15px;font-style:italic;}
 
 /* Hint */
 .hint{
-  margin-top:20px;
+  margin-top:22px;
   font-size:14px;
-  opacity:0.8;
-  transition:opacity .4s ease;
+  opacity:.8;
+  transition:opacity .3s ease;
 }
 
-/* Pulse */
-@keyframes pulse{
-  0%{transform:scale(1);}
-  50%{transform:scale(1.025);}
-  100%{transform:scale(1);}
-}
-
-/* Rose petals */
+/* Petals */
 .petal{
   position:fixed;
   top:-10%;
@@ -140,7 +138,6 @@ p{
   pointer-events:none;
   z-index:9999;
 }
-
 @keyframes fall{
   0%{transform:translateX(0) rotate(0deg);opacity:1;}
   100%{transform:translateX(120px) rotate(360deg);top:110%;opacity:0;}
@@ -151,13 +148,11 @@ p{
 <body>
 
 <div class="wrapper">
-  <div class="envelope" id="envelope">
-    <div class="envelope-flap"></div>
-    <div class="envelope-body"></div>
+  <div class="env-shell" id="env">
+    <div class="env-back"></div>
 
     <div class="letter">
       <div class="title">For you.</div>
-
       <div class="choose">I choose you.</div>
 
       <p>
@@ -171,51 +166,48 @@ p{
         And all the days in between.
       </p>
 
-      <div class="signature">
-        This is us.
-      </div>
+      <div class="signature">This is us.</div>
     </div>
+
+    <div class="env-pocket"></div>
+    <div class="env-flap"></div>
   </div>
 
   <div class="hint" id="hint">Tap the envelope 💌</div>
 </div>
 
-<!-- 🎵 Local music file -->
-<audio id="music" preload="auto">
+<audio id="music">
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-const envelope = document.getElementById("envelope");
+const env = document.getElementById("env");
 const hint = document.getElementById("hint");
 const music = document.getElementById("music");
 
-function showerPetals(){
-  const petals = ["🌹","🌸","💗"];
-  for(let i=0;i<22;i++){
-    const p = document.createElement("div");
-    p.className = "petal";
-    p.innerText = petals[Math.floor(Math.random()*petals.length)];
-    p.style.left = Math.random()*100 + "vw";
-    p.style.animationDuration = 4 + Math.random()*3 + "s";
+function petals(){
+  const icons=["🌹","🌸","💗"];
+  for(let i=0;i<16;i++){
+    const p=document.createElement("div");
+    p.className="petal";
+    p.innerText=icons[Math.floor(Math.random()*icons.length)];
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=4+Math.random()*3+"s";
     document.body.appendChild(p);
     setTimeout(()=>p.remove(),7000);
   }
 }
 
-envelope.addEventListener("click", () => {
-  envelope.classList.add("open");
-  hint.style.opacity = "0";
+env.addEventListener("click",()=>{
+  env.classList.add("open");
+  hint.style.opacity=0;
 
-  setTimeout(() => {
-    envelope.classList.add("show-letter");
-
-    // 🎵 Play music ONLY after letter appears
-    music.volume = 0.35;
-    music.play().catch(() => {});
-
-    showerPetals();
-  }, 450);
+  setTimeout(()=>{
+    env.classList.add("show-letter");
+    music.volume=.35;
+    music.play().catch(()=>{});
+    petals();
+  },400);
 });
 </script>
 
