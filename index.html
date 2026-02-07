@@ -70,6 +70,7 @@ button{
   border:none;
   font-size:15px;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 #yes{
@@ -80,7 +81,7 @@ button{
 #no{
   background:#222;
   color:#fff;
-  transition:transform .25s ease;
+  transition:transform .35s cubic-bezier(.22,1,.36,1);
 }
 
 /* Rose petals */
@@ -140,11 +141,17 @@ const texts = [
 
 let i = 0;
 
-// NO button behaviour
-noBtn.addEventListener("click", () => {
-  const x = (Math.random()*120)-60;
-  const y = (Math.random()*60)-30;
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+/* MOVE NO BUTTON */
+function moveNoButton(){
+  // reset first so movement is always visible
+  noBtn.style.transform = "translate(0,0)";
+
+  const x = (Math.random() * 160) - 80;
+  const y = (Math.random() * 80) - 40;
+
+  requestAnimationFrame(() => {
+    noBtn.style.transform = `translate(${x}px, ${y}px)`;
+  });
 
   memeText.innerText = texts[i % texts.length];
   i++;
@@ -152,9 +159,18 @@ noBtn.addEventListener("click", () => {
   if(i === 1){
     memeImg.src = "akshay.jpg";
   }
-});
+}
 
-// Rose petals
+/* Desktop hover */
+noBtn.addEventListener("mouseenter", moveNoButton);
+
+/* Mobile tap */
+noBtn.addEventListener("touchstart", (e) => {
+  e.preventDefault();
+  moveNoButton();
+}, { passive:false });
+
+/* Rose petals */
 function showerRosePetals(){
   const petals = ["🌹","🌸","💗"];
   for(let j=0;j<30;j++){
@@ -168,7 +184,7 @@ function showerRosePetals(){
   }
 }
 
-// YES button behaviour
+/* YES button */
 yesBtn.addEventListener("click", () => {
   music.play();
   memeImg.src = "ddlj.jpg";
